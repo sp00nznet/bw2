@@ -1,0 +1,28 @@
+================================================================================
+PE CATALOG: bw2/game  (3 binaries)
+================================================================================
+
+================================================================================
+  APP
+================================================================================
+
+  [Black & White 2_code.exe]  323,584 bytes
+  SHA1: f953b7d30a97cc1eb20d2bf808e49ed89a04ea6c
+  PE32 EXE (x86), GUI, linker 7.10, built 2005-08-19 17:48:32 UTC
+  imports: KERNEL32.dll, USER32.dll, GDI32.dll, comdlg32.dll, WINSPOOL.DRV, ADVAPI32.dll, COMCTL32.dll, SHLWAPI.dll, OLEAUT32.dll
+
+================================================================================
+  PLUGIN/LIB
+================================================================================
+
+  [DrvMgt.dll]  41,472 bytes
+  SHA1: 7c5ab9bdf965b70e60b99086519327168f43f362
+  PE32 DLL (x86), GUI, linker 6.0, built 2005-02-16 15:44:06 UTC
+  exports:3
+  imports: KERNEL32.dll, USER32.dll, ADVAPI32.dll
+
+  [binkw32.dll]  339,456 bytes
+  SHA1: 2c2639d746d18c9f4da8fa302c549d9bc66f60dd
+  PE32 DLL (x86), GUI, linker 7.10, built 2005-03-03 11:44:40 UTC
+  exports:88
+  imports: USER32.dll, GDI32.dll, KERNEL32.dll, WINMM.dll
