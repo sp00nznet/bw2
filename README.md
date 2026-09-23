@@ -9,6 +9,10 @@ four years on.
 
 ## Project Status: **P0 partial. The target binary is on a later disc and has not been extracted yet.**
 
+Nothing has been lifted, and nothing builds or runs. What is here is this
+write-up and the P0 output in `analysis/`. The game is 32-bit PE (MSVC 7.1),
+so it goes through pcrecomp's 32-bit path, not the x86-64 one.
+
 ---
 
 ## What P0 found
@@ -29,7 +33,7 @@ has ever been pointed at, by a distance:
 | Binary | Size | Status |
 |--------|-----:|--------|
 | **`white.exe`** (B&W2, 2005) | **21.74 MB** | not yet extracted |
-| Rise of Legends (2006) | 13.25 MB | "the stress test", private |
+| [Rise of Legends](https://github.com/sp00nznet/rol) (2006) | 13.25 MB | "the stress test" |
 | Encarta 97 `ENC97.EXE` + 5 DLLs | ~7 MB total | runs |
 | Black & White (2001) | ~5 MB | active, 569 types done |
 
@@ -70,20 +74,24 @@ image. Where they do not, the diff is the four years.
 
 It is also the honest answer to "can this toolchain handle a 2005 AAA title".
 Rise of Legends says *not yet* — 25,513 functions reachable only through
-vtables, no RTTI, and the standing conclusion is that a real vtable scanner has
-to be ported from `xboxrecomp` first. B&W2 is bigger than Rise of Legends and
-will need the same thing. **Treat the vtable scanner as a prerequisite, not a
-discovery.**
+vtables, no RTTI, and the conclusion at the time was that a real vtable scanner had
+to be ported from `xboxrecomp` first. That port has since landed as
+`tools/cpp/vtable_scan.py` (100% of findable vtables on Trespasser, checked
+against its RTTI), next to `tools/cpp/rtti.py`. Measuring them changed the
+conclusion: on Trespasser and Force Commander both, RTTI and vtable scanning
+added **names, not functions**; the disassembler's E9 seeding and fixpoint
+were already finding the methods. So for B&W2 they are the way to put `bw`'s
+class names onto a 21 MB image, not a gate in front of disassembling it.
 
 ## Where it goes next
 
 1. Unpack discs 2–4 and extract `white.exe`. Nothing else can start.
-2. Port the vtable scanner from `xboxrecomp` (see
-   [CONSOLIDATION.md](https://github.com/sp00nznet/pcrecomp/blob/main/docs/CONSOLIDATION.md)).
-   This target and Rise of Legends both need it.
+2. `tools/disasm/disasm32.py` over it, then `tools/cpp/rtti.py` (if it kept
+   its RTTI) and `tools/cpp/vtable_scan.py` for names. See
+   [CONSOLIDATION.md](https://github.com/sp00nznet/pcrecomp/blob/main/docs/CONSOLIDATION.md)
+   for what they do and do not find.
 3. Run `bw`'s recovered type names against the new binary and measure what
    survived.
-4. Only then disassemble.
 
 ## Layout
 
@@ -100,3 +108,7 @@ bw2/
 
 Black & White 2 © 2005 Lionhead Studios / Electronic Arts. This project neither
 contains nor distributes any part of it.
+
+The code and documentation here are MIT; [LICENSE](LICENSE) spells out that
+the grant stops at our own work and does not reach the game or anything
+lifted from it.
